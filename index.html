@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Munkagép Bérlés | Munkagépek bérbeadása</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8fc;
+            color: #172b4d;
+        }
+
+        /* FEJLÉC */
+        header {
+            background: #ffffff;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #172b4d;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* FŐOLDAL */
+        .hero {
+            min-height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #0066cc, #00a2ff);
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 21px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            background: white;
+            color: #0066cc;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* SZEKCIÓK */
+        section {
+            padding: 80px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 38px;
+            color: #0066cc;
+            margin-bottom: 50px;
+        }
+
+        /* GÉPEK */
+        .machines {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .machine-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .machine-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.13);
+        }
+
+        .machine-icon {
+            font-size: 65px;
+            margin-bottom: 20px;
+        }
+
+        .machine-card h3 {
+            font-size: 27px;
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+
+        .machine-card p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 25px;
+            font-weight: bold;
+            color: #172b4d;
+            margin-bottom: 20px;
+        }
+
+        .rent-button {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .rent-button:hover {
+            background: #004c99;
+        }
+
+        /* SZOLGÁLTATÁSOK */
+        .services {
+            background: white;
+        }
+
+        .service-list {
+            max-width: 800px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .service {
+            background: #f4f8fc;
+            padding: 25px;
+            border-left: 5px solid #0066cc;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* ÁRLISTA */
+        .price-table {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #0066cc;
+            color: white;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            font-size: 17px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* KAPCSOLAT */
+        .contact {
+            background: #0066cc;
+            color: white;
+        }
+
+        .contact .section-title {
+            color: white;
+        }
+
+        .contact-box {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            color: #172b4d;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .contact-box p {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .contact-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 30px;
+            background: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        /* LÁBLÉC */
+        footer {
+            background: #172b4d;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        /* MOBIL */
+        @media (max-width: 800px) {
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+
+            .machines {
+                grid-template-columns: 1fr;
+            }
+
+            .service-list {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .section-title {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FEJLÉC -->
+    <header>
+        <div class="logo">🚜 Munkagép Bérlés</div>
+
+        <nav>
+            <a href="#kezdooldal">Főoldal</a>
+            <a href="#gepek">Gépeink</a>
+            <a href="#arak">Árak</a>
+            <a href="#kapcsolat">Kapcsolat</a>
+        </nav>
+    </header>
+
+
+    <!-- FŐOLDAL -->
+    <section class="hero" id="kezdooldal">
+
+        <div class="hero-content">
+
+            <h1>Munkagép Bérlés</h1>
+
+            <p>
+                Megbízható munkagépek egyszerű és gyors bérlése.
+                Válaszd ki a számodra megfelelő gépet!
+            </p>
+
+            <a href="#gepek" class="button">
+                Gépeink megtekintése
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- GÉPEINK -->
+    <section id="gepek">
+
+        <h2 class="section-title">Gépeink</h2>
+
+        <div class="machines">
+
+            <!-- MARKOLÓ -->
+            <div class="machine-card">
+
+                <div class="machine-icon">🚜</div>
+
+                <h3>Markoló</h3>
+
+                <p>
+                    Megbízható markoló különböző
+                    építési és földmunkákhoz.
+                </p>
+
+                <div class="price">
+                    25 000 Ft / nap
+                </div>
+
+                <a href="#kapcsolat" class="rent-button">
+                    Érdekel
+                </a>
+
+            </div>
+
+
+            <!-- KOTRÓ -->
+            <div class="machine-card">
+
+                <div class="machine-icon">🏗️</div>
+
+                <h3>Kotró</h3>
+
+                <p>
+                    Kotrógép földmunkához,
+                    ásáshoz és tereprendezéshez.
+                </p>
+
+                <div class="price">
+                    30 000 Ft / nap
+                </div>
+
+                <a href="#kapcsolat" class="rent-button">
+                    Érdekel
+                </a>
+
+            </div>
+
+
+            <!-- BOBCAT -->
+            <div class="machine-card">
+
+                <div class="machine-icon">🚧</div>
+
+                <h3>Bobcat</h3>
+
+                <p>
+                    Kompakt és sokoldalú gép
+                    kisebb és nagyobb munkákhoz.
+                </p>
+
+                <div class="price">
+                    18 000 Ft / nap
+                </div>
+
+                <a href="#kapcsolat" class="rent-button">
+                    Érdekel
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SZOLGÁLTATÁSOK -->
+    <section class="services">
+
+        <h2 class="section-title">Szolgáltatásaink</h2>
+
+        <div class="service-list">
+
+            <div class="service">
+                🚜 Munkagépek bérbeadása
+            </div>
+
+            <div class="service">
+                🏗️ Földmunka
+            </div>
+
+            <div class="service">
+                🚧 Tereprendezés
+            </div>
+
+            <div class="service">
+                🔧 Építési munkák
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ÁRLISTA -->
+    <section id="arak">
+
+        <h2 class="section-title">Árlista</h2>
+
+        <div class="price-table">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Gép</th>
+                        <th>Ár / nap</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>🚜 Markoló</td>
+                        <td><strong>25 000 Ft</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>🏗️ Kotrógép</td>
+                        <td><strong>30 000 Ft</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td>🚧 Bobcat</td>
+                        <td><strong>18 000 Ft</strong></td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- KAPCSOLAT -->
+    <section class="contact" id="kapcsolat">
+
+        <h2 class="section-title">Kapcsolat</h2>
+
+        <div class="contact-box">
+
+            <h2>Érdekel valamelyik munkagép?</h2>
+
+            <p>
+                Vedd fel velünk a kapcsolatot,
+                és egyeztessük a bérlést!
+            </p>
+
+            <!-- EZEKET KÉSŐBB A SAJÁT ADATAIDRA CSERÉLD -->
+            <p>
+                📞 Telefon: +36 30 123 4567
+            </p>
+
+            <p>
+                ✉️ E-mail: info@munkagepberles.hu
+            </p>
+
+            <a
+                href="mailto:info@munkagepberles.hu"
+                class="contact-button">
+                E-mail küldése
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- LÁBLÉC -->
+    <footer>
+
+        <p>
+            © 2026 Munkagép Bérlés - Minden jog fenntartva.
+        </p>
+
+    </footer>
+
+
+</body>
+</html>
