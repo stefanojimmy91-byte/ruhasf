@@ -1,538 +1,1278 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Munkagép Bérlés | Munkagépek bérbeadása</title>
+<title>AURELIA | Prémium Divat</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+<style>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f8fc;
-            color: #172b4d;
-        }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-        /* FEJLÉC */
-        header {
-            background: #ffffff;
-            padding: 18px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+body {
+font-family: Arial, sans-serif;
+background: #fff;
+color: #171512;
+}
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            color: #0066cc;
-        }
+/* =========================
+FEJLÉC
+========================= */
 
-        nav a {
-            text-decoration: none;
-            color: #172b4d;
-            margin-left: 25px;
-            font-weight: bold;
-        }
+header {
+height: 80px;
+border-bottom: 1px solid #e5d8bd;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 0 30px;
+position: sticky;
+top: 0;
+background: rgba(255,255,255,0.97);
+z-index: 100;
+}
 
-        nav a:hover {
-            color: #0066cc;
-        }
+.menu-button {
+width: 45px;
+height: 45px;
+border: none;
+background: transparent;
+cursor: pointer;
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 6px;
+}
 
-        /* FŐOLDAL */
-        .hero {
-            min-height: 550px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #0066cc, #00a2ff);
-            color: white;
-        }
+.menu-button span {
+display: block;
+width: 28px;
+height: 2px;
+background: #171512;
+transition: 0.3s;
+}
 
-        .hero-content {
-            max-width: 800px;
-        }
+.logo {
+font-family: Georgia, serif;
+font-size: 27px;
+letter-spacing: 6px;
+color: #b28a3c;
+}
 
-        .hero h1 {
-            font-size: 58px;
-            margin-bottom: 20px;
-        }
+.cart-button {
+border: 1px solid #b28a3c;
+background: white;
+padding: 12px 18px;
+border-radius: 25px;
+cursor: pointer;
+}
 
-        .hero p {
-            font-size: 21px;
-            margin-bottom: 35px;
-            line-height: 1.6;
-        }
+.cart-count {
+background: #b28a3c;
+color: white;
+border-radius: 50%;
+padding: 3px 7px;
+margin-left: 5px;
+}
 
-        .button {
-            display: inline-block;
-            background: white;
-            color: #0066cc;
-            padding: 15px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
+/* =========================
+OLDALSÓ MENÜ
+========================= */
 
-        .button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
+.menu {
+position: fixed;
+top: 0;
+left: -350px;
+width: 330px;
+height: 100vh;
+background: white;
+z-index: 200;
+padding: 30px;
+box-shadow: 5px 0 30px rgba(0,0,0,0.15);
+transition: 0.35s;
+}
 
-        /* SZEKCIÓK */
-        section {
-            padding: 80px 7%;
-        }
+.menu.active {
+left: 0;
+}
 
-        .section-title {
-            text-align: center;
-            font-size: 38px;
-            color: #0066cc;
-            margin-bottom: 50px;
-        }
+.menu-close {
+float: right;
+font-size: 30px;
+background: none;
+border: none;
+cursor: pointer;
+}
 
-        /* GÉPEK */
-        .machines {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
+.menu h2 {
+font-family: Georgia, serif;
+margin-top: 50px;
+margin-bottom: 30px;
+color: #b28a3c;
+}
 
-        .machine-card {
-            background: white;
-            border-radius: 15px;
-            padding: 35px 25px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
+.menu-item {
+display: block;
+width: 100%;
+padding: 18px 5px;
+border: none;
+border-bottom: 1px solid #eadfc9;
+background: white;
+text-align: left;
+font-size: 17px;
+cursor: pointer;
+}
 
-        .machine-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.13);
-        }
+.menu-item:hover {
+color: #b28a3c;
+padding-left: 12px;
+}
 
-        .machine-icon {
-            font-size: 65px;
-            margin-bottom: 20px;
-        }
+/* =========================
+HÁTTÉR
+========================= */
 
-        .machine-card h3 {
-            font-size: 27px;
-            color: #0066cc;
-            margin-bottom: 15px;
-        }
+.overlay {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.5);
+z-index: 150;
+display: none;
+}
 
-        .machine-card p {
-            color: #555;
-            margin-bottom: 20px;
-        }
+.overlay.active {
+display: block;
+}
 
-        .price {
-            font-size: 25px;
-            font-weight: bold;
-            color: #172b4d;
-            margin-bottom: 20px;
-        }
+/* =========================
+FŐOLDAL
+========================= */
 
-        .rent-button {
-            display: inline-block;
-            background: #0066cc;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 7px;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
+.hero {
+min-height: 620px;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
 
-        .rent-button:hover {
-            background: #004c99;
-        }
+background:
+linear-gradient(
+120deg,
+#f5f0e6,
+#ffffff,
+#eee4cf
+);
 
-        /* SZOLGÁLTATÁSOK */
-        .services {
-            background: white;
-        }
+padding: 50px 20px;
+}
 
-        .service-list {
-            max-width: 800px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+.hero small {
+color: #b28a3c;
+letter-spacing: 4px;
+}
 
-        .service {
-            background: #f4f8fc;
-            padding: 25px;
-            border-left: 5px solid #0066cc;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-        }
+.hero h1 {
+font-family: Georgia, serif;
+font-size: clamp(50px, 8vw, 90px);
+margin: 20px 0;
+}
 
-        /* ÁRLISTA */
-        .price-table {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
+.hero p {
+max-width: 600px;
+margin: auto;
+line-height: 1.8;
+color: #666;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+.hero-button {
+margin-top: 30px;
+padding: 16px 30px;
+border: none;
+background: #171512;
+color: white;
+cursor: pointer;
+}
 
-        th {
-            background: #0066cc;
-            color: white;
-            padding: 20px;
-            font-size: 18px;
-        }
+.hero-button:hover {
+background: #b28a3c;
+}
 
-        td {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            font-size: 17px;
-        }
+/* =========================
+TERMÉKEK
+========================= */
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+.products-section {
+padding: 70px 5%;
+}
 
-        /* KAPCSOLAT */
-        .contact {
-            background: #0066cc;
-            color: white;
-        }
+.section-title {
+font-family: Georgia, serif;
+font-size: 40px;
+margin-bottom: 35px;
+}
 
-        .contact .section-title {
-            color: white;
-        }
+.products {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 25px;
+}
 
-        .contact-box {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            color: #172b4d;
-            padding: 35px;
-            border-radius: 15px;
-            text-align: center;
-        }
+.product {
+border: 1px solid #eadfc9;
+background: white;
+overflow: hidden;
+}
 
-        .contact-box p {
-            font-size: 18px;
-            margin: 15px 0;
-        }
+.product-image {
+height: 380px;
 
-        .contact-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 14px 30px;
-            background: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
+background:
+linear-gradient(
+135deg,
+#e9e2d5,
+#cfc1a7
+);
 
-        /* LÁBLÉC */
-        footer {
-            background: #172b4d;
-            color: white;
-            text-align: center;
-            padding: 25px;
-        }
+display: flex;
+justify-content: center;
+align-items: center;
 
-        /* MOBIL */
-        @media (max-width: 800px) {
+font-family: Georgia, serif;
+font-size: 70px;
+color: white;
+}
 
-            header {
-                flex-direction: column;
-                gap: 15px;
-            }
+.product-info {
+padding: 18px;
+}
 
-            nav a {
-                margin: 0 7px;
-                font-size: 14px;
-            }
+.product-category {
+font-size: 11px;
+color: #b28a3c;
+text-transform: uppercase;
+letter-spacing: 2px;
+}
 
-            .hero h1 {
-                font-size: 40px;
-            }
+.product-name {
+margin: 8px 0;
+font-size: 18px;
+}
 
-            .hero p {
-                font-size: 17px;
-            }
+.product-price {
+font-weight: bold;
+font-size: 17px;
+}
 
-            .machines {
-                grid-template-columns: 1fr;
-            }
+/* =========================
+MÉRETEK
+========================= */
 
-            .service-list {
-                grid-template-columns: 1fr;
-            }
+.sizes {
+display: flex;
+gap: 5px;
+flex-wrap: wrap;
+margin-top: 15px;
+}
 
-            section {
-                padding: 60px 5%;
-            }
+.size {
+border: 1px solid #d8ccb5;
+background: white;
+padding: 8px 10px;
+cursor: pointer;
+}
 
-            .section-title {
-                font-size: 30px;
-            }
-        }
-    </style>
+.size.selected {
+background: #171512;
+color: white;
+}
+
+.add-cart {
+width: 100%;
+margin-top: 15px;
+padding: 13px;
+border: 1px solid #b28a3c;
+background: white;
+cursor: pointer;
+}
+
+.add-cart:hover {
+background: #b28a3c;
+color: white;
+}
+
+/* =========================
+KOSÁR
+========================= */
+
+.cart {
+position: fixed;
+top: 0;
+right: -450px;
+width: 420px;
+max-width: 95%;
+height: 100vh;
+background: white;
+z-index: 300;
+padding: 25px;
+box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+transition: 0.35s;
+overflow-y: auto;
+}
+
+.cart.active {
+right: 0;
+}
+
+.cart-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid #eadfc9;
+padding-bottom: 20px;
+}
+
+.cart-header h2 {
+font-family: Georgia, serif;
+}
+
+.close-cart {
+border: none;
+background: none;
+font-size: 28px;
+cursor: pointer;
+}
+
+.cart-product {
+display: flex;
+gap: 15px;
+padding: 20px 0;
+border-bottom: 1px solid #eadfc9;
+}
+
+.cart-product-image {
+width: 75px;
+height: 90px;
+background: #ddd4c3;
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+font-family: Georgia, serif;
+}
+
+.cart-product-info {
+flex: 1;
+}
+
+.cart-product-info small {
+display: block;
+margin-top: 7px;
+color: #777;
+}
+
+.remove {
+margin-top: 10px;
+border: none;
+background: none;
+color: #b28a3c;
+cursor: pointer;
+}
+
+.cart-total {
+display: flex;
+justify-content: space-between;
+font-size: 20px;
+font-weight: bold;
+padding: 25px 0;
+}
+
+.checkout {
+width: 100%;
+padding: 16px;
+background: #b28a3c;
+color: white;
+border: none;
+cursor: pointer;
+}
+
+/* =========================
+RÓLUNK
+========================= */
+
+.about {
+padding: 80px 10%;
+text-align: center;
+background: #faf7f0;
+}
+
+.about h2 {
+font-family: Georgia, serif;
+font-size: 40px;
+color: #b28a3c;
+margin-bottom: 20px;
+}
+
+.about p {
+max-width: 700px;
+margin: auto;
+line-height: 1.8;
+color: #666;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer {
+background: #171512;
+color: white;
+padding: 50px 7%;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 30px;
+}
+
+footer h3 {
+font-family: Georgia, serif;
+color: #d6b66b;
+margin-bottom: 15px;
+}
+
+footer p {
+color: #bbb;
+line-height: 1.8;
+}
+
+/* =========================
+MOBIL
+========================= */
+
+@media(max-width: 900px) {
+
+.products {
+grid-template-columns: repeat(2, 1fr);
+}
+
+footer {
+grid-template-columns: 1fr;
+}
+}
+
+@media(max-width: 550px) {
+
+header {
+padding: 0 15px;
+}
+
+.logo {
+font-size: 19px;
+letter-spacing: 3px;
+}
+
+.products {
+grid-template-columns: repeat(2, 1fr);
+gap: 10px;
+}
+
+.product-image {
+height: 260px;
+}
+
+.menu {
+width: 290px;
+}
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <!-- FEJLÉC -->
-    <header>
-        <div class="logo">🚜 Munkagép Bérlés</div>
 
-        <nav>
-            <a href="#kezdooldal">Főoldal</a>
-            <a href="#gepek">Gépeink</a>
-            <a href="#arak">Árak</a>
-            <a href="#kapcsolat">Kapcsolat</a>
-        </nav>
-    </header>
+<!-- =========================
+FEJLÉC
+========================= -->
 
+<header>
 
-    <!-- FŐOLDAL -->
-    <section class="hero" id="kezdooldal">
+<button class="menu-button" onclick="openMenu()">
+<span></span>
+<span></span>
+<span></span>
+</button>
 
-        <div class="hero-content">
+<div class="logo">
+AURELIA
+</div>
 
-            <h1>Munkagép Bérlés</h1>
+<button class="cart-button" onclick="openCart()">
+🛒 Kosár
+<span class="cart-count" id="cartCount">0</span>
+</button>
 
-            <p>
-                Megbízható munkagépek egyszerű és gyors bérlése.
-                Válaszd ki a számodra megfelelő gépet!
-            </p>
+</header>
 
-            <a href="#gepek" class="button">
-                Gépeink megtekintése
-            </a>
 
-        </div>
+<!-- =========================
+MENÜ
+========================= -->
 
-    </section>
+<div class="overlay" id="overlay" onclick="closeEverything()"></div>
 
+<div class="menu" id="menu">
 
-    <!-- GÉPEINK -->
-    <section id="gepek">
+<button class="menu-close" onclick="closeMenu()">
+×
+</button>
 
-        <h2 class="section-title">Gépeink</h2>
+<h2>Mit szeretnél nézni?</h2>
 
-        <div class="machines">
+<button class="menu-item" onclick="showCategory('osszes')">
+🏠 Főoldal
+</button>
 
-            <!-- MARKOLÓ -->
-            <div class="machine-card">
+<button class="menu-item" onclick="showCategory('ferfi')">
+👔 Férfi
+</button>
 
-                <div class="machine-icon">🚜</div>
+<button class="menu-item" onclick="showCategory('noi')">
+👗 Női
+</button>
 
-                <h3>Markoló</h3>
+<button class="menu-item" onclick="showCategory('kedvezmenyes')">
+🏷 Kedvezményes
+</button>
 
-                <p>
-                    Megbízható markoló különböző
-                    építési és földmunkákhoz.
-                </p>
+<button class="menu-item" onclick="showCategory('utolso')">
+⚡ Utolsó darabok
+</button>
 
-                <div class="price">
-                    25 000 Ft / nap
-                </div>
+<button class="menu-item" onclick="showCategory('nyari')">
+☀ Nyári kollekció
+</button>
 
-                <a href="#kapcsolat" class="rent-button">
-                    Érdekel
-                </a>
+</div>
 
-            </div>
 
+<!-- =========================
+FŐOLDAL
+========================= -->
 
-            <!-- KOTRÓ -->
-            <div class="machine-card">
+<section class="hero">
 
-                <div class="machine-icon">🏗️</div>
+<div>
 
-                <h3>Kotró</h3>
+<small>
+AURELIA • ÚJ KOLLEKCIÓ
+</small>
 
-                <p>
-                    Kotrógép földmunkához,
-                    ásáshoz és tereprendezéshez.
-                </p>
+<h1>
+Elegancia<br>
+aranyba foglalva.
+</h1>
 
-                <div class="price">
-                    30 000 Ft / nap
-                </div>
+<p>
+Prémium stílus, letisztult vonalak és időtlen darabok.
+Fedezd fel az AURELIA kollekciót.
+</p>
 
-                <a href="#kapcsolat" class="rent-button">
-                    Érdekel
-                </a>
+<button
+class="hero-button"
+onclick="showCategory('osszes')">
 
-            </div>
+KOLLEKCIÓ MEGTEKINTÉSE
 
+</button>
 
-            <!-- BOBCAT -->
-            <div class="machine-card">
+</div>
 
-                <div class="machine-icon">🚧</div>
+</section>
 
-                <h3>Bobcat</h3>
 
-                <p>
-                    Kompakt és sokoldalú gép
-                    kisebb és nagyobb munkákhoz.
-                </p>
+<!-- =========================
+TERMÉKEK
+========================= -->
 
-                <div class="price">
-                    18 000 Ft / nap
-                </div>
+<section class="products-section" id="products">
 
-                <a href="#kapcsolat" class="rent-button">
-                    Érdekel
-                </a>
+<h2 class="section-title" id="categoryTitle">
+Összes termék
+</h2>
 
-            </div>
+<div class="products" id="productsContainer"></div>
 
-        </div>
+</section>
 
-    </section>
 
+<!-- =========================
+RÓLUNK
+========================= -->
 
-    <!-- SZOLGÁLTATÁSOK -->
-    <section class="services">
+<section class="about">
 
-        <h2 class="section-title">Szolgáltatásaink</h2>
+<h2>AURELIA</h2>
 
-        <div class="service-list">
+<p>
+Az AURELIA egy modern prémium divatmárka koncepciója,
+ahol a fehér és az arany eleganciája találkozik
+a letisztult formákkal.
+</p>
 
-            <div class="service">
-                🚜 Munkagépek bérbeadása
-            </div>
+</section>
 
-            <div class="service">
-                🏗️ Földmunka
-            </div>
 
-            <div class="service">
-                🚧 Tereprendezés
-            </div>
+<!-- =========================
+FOOTER
+========================= -->
 
-            <div class="service">
-                🔧 Építési munkák
-            </div>
+<footer>
 
-        </div>
+<div>
+<h3>AURELIA</h3>
+<p>
+Prémium divat.<br>
+Időtlen elegancia.
+</p>
+</div>
 
-    </section>
+<div>
+<h3>Információ</h3>
+<p>
+Szállítás<br>
+Visszaküldés<br>
+GYIK
+</p>
+</div>
 
+<div>
+<h3>Jogi információ</h3>
+<p>
+ÁSZF<br>
+Adatvédelem<br>
+Impresszum
+</p>
+</div>
 
-    <!-- ÁRLISTA -->
-    <section id="arak">
+</footer>
 
-        <h2 class="section-title">Árlista</h2>
 
-        <div class="price-table">
+<!-- =========================
+KOSÁR
+========================= -->
 
-            <table>
+<div class="cart" id="cart">
 
-                <thead>
-                    <tr>
-                        <th>Gép</th>
-                        <th>Ár / nap</th>
-                    </tr>
-                </thead>
+<div class="cart-header">
 
-                <tbody>
+<h2>Kosár</h2>
 
-                    <tr>
-                        <td>🚜 Markoló</td>
-                        <td><strong>25 000 Ft</strong></td>
-                    </tr>
+<button
+class="close-cart"
+onclick="closeCart()">
 
-                    <tr>
-                        <td>🏗️ Kotrógép</td>
-                        <td><strong>30 000 Ft</strong></td>
-                    </tr>
+×
 
-                    <tr>
-                        <td>🚧 Bobcat</td>
-                        <td><strong>18 000 Ft</strong></td>
-                    </tr>
+</button>
 
-                </tbody>
+</div>
 
-            </table>
+<div id="cartProducts"></div>
 
-        </div>
+<div class="cart-total">
 
-    </section>
+<span>Összesen:</span>
 
+<span id="cartTotal">
+0 Ft
+</span>
 
-    <!-- KAPCSOLAT -->
-    <section class="contact" id="kapcsolat">
+</div>
 
-        <h2 class="section-title">Kapcsolat</h2>
+<button
+class="checkout"
+onclick="checkout()">
 
-        <div class="contact-box">
+TOVÁBB A PÉNZTÁRHOZ
 
-            <h2>Érdekel valamelyik munkagép?</h2>
+</button>
 
-            <p>
-                Vedd fel velünk a kapcsolatot,
-                és egyeztessük a bérlést!
-            </p>
+</div>
 
-            <!-- EZEKET KÉSŐBB A SAJÁT ADATAIDRA CSERÉLD -->
-            <p>
-                📞 Telefon: +36 30 123 4567
-            </p>
 
-            <p>
-                ✉️ E-mail: info@munkagepberles.hu
-            </p>
+<script>
 
-            <a
-                href="mailto:info@munkagepberles.hu"
-                class="contact-button">
-                E-mail küldése
-            </a>
+/* =========================
+TERMÉKEK
+========================= */
 
-        </div>
+const products = [
 
-    </section>
+{
+id: 1,
+name: "Luna Blézer",
+category: "noi",
+price: 42990,
+tags: ["nyari"]
+},
 
+{
+id: 2,
+name: "Éclat Ruha",
+category: "noi",
+price: 35990,
+tags: ["nyari", "kedvezmenyes"]
+},
 
-    <!-- LÁBLÉC -->
-    <footer>
+{
+id: 3,
+name: "Imperial Ing",
+category: "ferfi",
+price: 24990,
+tags: []
+},
 
-        <p>
-            © 2026 Munkagép Bérlés - Minden jog fenntartva.
-        </p>
+{
+id: 4,
+name: "Noir Nadrág",
+category: "ferfi",
+price: 29990,
+tags: ["utolso"]
+},
 
-    </footer>
+{
+id: 5,
+name: "Aurelia Top",
+category: "noi",
+price: 18990,
+tags: ["kedvezmenyes", "nyari"]
+},
 
+{
+id: 6,
+name: "Royal Zakó",
+category: "ferfi",
+price: 49990,
+tags: ["utolso"]
+},
+
+{
+id: 7,
+name: "Sienna Szoknya",
+category: "noi",
+price: 27990,
+tags: ["nyari"]
+},
+
+{
+id: 8,
+name: "Monaco Póló",
+category: "ferfi",
+price: 16990,
+tags: ["kedvezmenyes"]
+}
+
+];
+
+
+/* =========================
+KOSÁR
+========================= */
+
+let cart = [];
+
+
+/* =========================
+MENÜ
+========================= */
+
+function openMenu() {
+
+document
+.getElementById("menu")
+.classList.add("active");
+
+document
+.getElementById("overlay")
+.classList.add("active");
+
+}
+
+
+function closeMenu() {
+
+document
+.getElementById("menu")
+.classList.remove("active");
+
+document
+.getElementById("overlay")
+.classList.remove("active");
+
+}
+
+
+function closeEverything() {
+
+closeMenu();
+closeCart();
+
+}
+
+
+/* =========================
+KATEGÓRIÁK
+========================= */
+
+function showCategory(category) {
+
+closeMenu();
+
+let filteredProducts = products;
+
+let title = "Összes termék";
+
+
+if (category === "ferfi") {
+
+filteredProducts =
+products.filter(
+product => product.category === "ferfi"
+);
+
+title = "Férfi";
+
+}
+
+
+if (category === "noi") {
+
+filteredProducts =
+products.filter(
+product => product.category === "noi"
+);
+
+title = "Női";
+
+}
+
+
+if (category === "kedvezmenyes") {
+
+filteredProducts =
+products.filter(
+product =>
+product.tags.includes("kedvezmenyes")
+);
+
+title = "Kedvezményes";
+
+}
+
+
+if (category === "utolso") {
+
+filteredProducts =
+products.filter(
+product =>
+product.tags.includes("utolso")
+);
+
+title = "Utolsó darabok";
+
+}
+
+
+if (category === "nyari") {
+
+filteredProducts =
+products.filter(
+product =>
+product.tags.includes("nyari")
+);
+
+title = "Nyári kollekció";
+
+}
+
+
+document
+.getElementById("categoryTitle")
+.innerText = title;
+
+
+renderProducts(filteredProducts);
+
+
+document
+.getElementById("products")
+.scrollIntoView({
+behavior: "smooth"
+});
+
+}
+
+
+/* =========================
+TERMÉKEK MEGJELENÍTÉSE
+========================= */
+
+function renderProducts(productList) {
+
+const container =
+document.getElementById(
+"productsContainer"
+);
+
+
+container.innerHTML = "";
+
+
+productList.forEach(product => {
+
+const productHTML = `
+
+<div class="product">
+
+<div class="product-image">
+A
+</div>
+
+<div class="product-info">
+
+<div class="product-category">
+
+${
+product.category === "noi"
+? "Női"
+: "Férfi"
+}
+
+</div>
+
+<h3 class="product-name">
+
+${product.name}
+
+</h3>
+
+<div class="product-price">
+
+${formatPrice(product.price)}
+
+</div>
+
+
+<div class="sizes">
+
+<button
+class="size"
+onclick="selectSize(this)">
+XS
+</button>
+
+<button
+class="size"
+onclick="selectSize(this)">
+S
+</button>
+
+<button
+class="size selected"
+onclick="selectSize(this)">
+M
+</button>
+
+<button
+class="size"
+onclick="selectSize(this)">
+L
+</button>
+
+<button
+class="size"
+onclick="selectSize(this)">
+XL
+</button>
+
+<button
+class="size"
+onclick="selectSize(this)">
+2XL
+</button>
+
+</div>
+
+
+<button
+class="add-cart"
+onclick="addToCart(${product.id})">
+
++ KOSÁRBA
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+
+container.innerHTML += productHTML;
+
+});
+
+}
+
+
+/* =========================
+MÉRET KIVÁLASZTÁSA
+========================= */
+
+function selectSize(button) {
+
+const parent =
+button.parentElement;
+
+
+parent
+.querySelectorAll(".size")
+.forEach(size => {
+
+size.classList.remove(
+"selected"
+);
+
+});
+
+
+button.classList.add("selected");
+
+}
+
+
+/* =========================
+KOSÁRBA HELYEZÉS
+========================= */
+
+function addToCart(id) {
+
+const product =
+products.find(
+product => product.id === id
+);
+
+
+const selectedSize =
+event
+.currentTarget
+.parentElement
+.querySelector(
+".size.selected"
+)
+.innerText;
+
+
+cart.push({
+
+...product,
+
+size: selectedSize
+
+});
+
+
+updateCart();
+
+openCart();
+
+}
+
+
+/* =========================
+KOSÁR FRISSÍTÉSE
+========================= */
+
+function updateCart() {
+
+const container =
+document.getElementById(
+"cartProducts"
+);
+
+
+container.innerHTML = "";
+
+
+let total = 0;
+
+
+cart.forEach((product, index) => {
+
+total += product.price;
+
+
+container.innerHTML += `
+
+<div class="cart-product">
+
+<div class="cart-product-image">
+A
+</div>
+
+<div class="cart-product-info">
+
+<strong>
+${product.name}
+</strong>
+
+<small>
+Méret: ${product.size}
+</small>
+
+<small>
+${formatPrice(product.price)}
+</small>
+
+<button
+class="remove"
+onclick="removeFromCart(${index})">
+
+Eltávolítás
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+
+document
+.getElementById("cartTotal")
+.innerText =
+formatPrice(total);
+
+
+document
+.getElementById("cartCount")
+.innerText =
+cart.length;
+
+
+if (cart.length === 0) {
+
+container.innerHTML =
+"<p style='padding:40px 0;color:#777'>A kosarad üres.</p>";
+
+}
+
+}
+
+
+/* =========================
+TERMÉK TÖRLÉSE
+========================= */
+
+function removeFromCart(index) {
+
+cart.splice(index, 1);
+
+updateCart();
+
+}
+
+
+/* =========================
+KOSÁR MEGNYITÁSA
+========================= */
+
+function openCart() {
+
+document
+.getElementById("cart")
+.classList.add("active");
+
+document
+.getElementById("overlay")
+.classList.add("active");
+
+}
+
+
+/* =========================
+KOSÁR BEZÁRÁSA
+========================= */
+
+function closeCart() {
+
+document
+.getElementById("cart")
+.classList.remove("active");
+
+document
+.getElementById("overlay")
+.classList.remove("active");
+
+}
+
+
+/* =========================
+ÁR FORMÁZÁS
+========================= */
+
+function formatPrice(price) {
+
+return price
+.toLocaleString("hu-HU")
++ " Ft";
+
+}
+
+
+/* =========================
+PÉNZTÁR
+========================= */
+
+function checkout() {
+
+if (cart.length === 0) {
+
+alert(
+"A kosarad üres."
+);
+
+return;
+
+}
+
+
+alert(
+"Ez jelenleg egy működő webshop-demó. A valódi bankkártyás fizetéshez fizetési szolgáltatót kell csatlakoztatni."
+);
+
+}
+
+
+/* =========================
+INDÍTÁS
+========================= */
+
+renderProducts(products);
+
+updateCart();
+
+</script>
 
 </body>
 </html>
